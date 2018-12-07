@@ -10,7 +10,7 @@ exports.handler = function (event, context, callback) {
 };
 
 function processCloudWatchEvent(event, callback) {
-  console.log("Received event", JSON.stringify(event));
+  console.log('Received event', JSON.stringify(event));
   const record = event.Records[0].Sns;
   const subject = record.Subject;
   const message = JSON.parse(record.Message);
