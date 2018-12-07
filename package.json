@@ -40,5 +40,8 @@
     "maxcomplexity": 10,
     "maxstatements": 40,
     "esversion": 6
+  },
+  "dependencies": {
+    "request": "^2.88.0"
   }
 }

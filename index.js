@@ -3,13 +3,14 @@
 const request = require('request');
 
 const slackChannel = process.env.slackRoom;
-var hookUrl = process.env.hookUrl;
+const hookUrl = process.env.hookUrl;
 
 exports.handler = function (event, context, callback) {
   processCloudWatchEvent(event, callback);
 };
 
 function processCloudWatchEvent(event, callback) {
+  console.log("Received event", JSON.stringify(event));
   const record = event.Records[0].Sns;
   const subject = record.Subject;
   const message = JSON.parse(record.Message);
@@ -17,23 +18,24 @@ function processCloudWatchEvent(event, callback) {
   const newState = message.NewStateValue;
   const reason = message.NewStateReason;
 
-  /* jshint camelcase:false */
   const slackMessage = {
     channel: slackChannel,
     attachments: [{
         text: `${alarmName} state is now ${newState}: ${reason}`,
     }],
     text: '*' + subject + '*',
+    /* jshint camelcase:false */
     icon_emoji: ':lightning_cloud:'
+    /* jshint camelcase:true */
   };
-  /* jshint camelcase:true */
+  
 
   const reqOpts = {
     uri: hookUrl,
     headers: {
       'Content-Type': 'application/json'
     },
-    body: slackMessage
+    json: slackMessage
   };
 
   request.post(reqOpts,
