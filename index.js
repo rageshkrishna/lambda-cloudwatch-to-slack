@@ -2,7 +2,7 @@
 
 const request = require('request');
 
-const slackChannel = process.env.slackRoom;
+const slackChannel = process.env.slackChannel;
 const hookUrl = process.env.hookUrl;
 
 exports.handler = function (event, context, callback) {
